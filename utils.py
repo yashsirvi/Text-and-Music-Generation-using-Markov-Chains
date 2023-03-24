@@ -17,6 +17,7 @@ def gen_text(data, block_type="word", block_size=3, words=20, characters=100):
     elif block_type == "ngram":
         return gen_ngram_text(blocks, characters)
 
+
 def get_blocks(data, block_type="word", block_size=3):
     """
     data is input folder containing text files
