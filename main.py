@@ -1,28 +1,7 @@
 from utils import *
-import pickle
-
-def load_files(type = "tweets", block_size = 7):
-    afile = open(f"{type}_word_blocks.pkl", "rb")
-    word_blocks = pickle.load(afile)
-    afile.close()
-    afile = open(f"{type}_ngram_{block_size}_blocks.pkl", "rb")
-    ngram_blocks = pickle.load(afile)
-    afile.close()
-    return word_blocks, ngram_blocks
-
-
-def save_files(data, type="tweets", block_size = 7):
-    word_blocks = get_words(data)
-    ngram_blocks = get_ngrams(data, block_size)
-    afile = open(f"{type}_word_blocks.pkl", "wb")
-    pickle.dump(word_blocks, afile)
-    afile.close()
-    afile = open(f"{type}_ngram_{block_size}_blocks.pkl", "wb")
-    pickle.dump(ngram_blocks, afile)
-    afile.close()
 
 def main():
-    data = "data"
+    data = "input"
     block_type1 = "word"
     block_type2 = "ngram"
     block_size = 7

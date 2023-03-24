@@ -1,7 +1,9 @@
 import os
 import re
 import random
+import pickle
 
+curr_dir = os.path.dirname(os.path.realpath(__file__))
 
 def gen_text(data, block_type="word", block_size=3, words=20, characters=100):
     """
@@ -112,3 +114,24 @@ def gen_ngram_text(blocks, size=3):
         text.append(char)
         curr_ngram = curr_ngram[1:] + char
     return "".join(text)
+
+
+def load_files(type = "tweets", block_size = 7):
+    afile = open(f"{curr_dir}/saved_data/{type}_word_blocks.pkl", "rb")
+    word_blocks = pickle.load(afile)
+    afile.close()
+    afile = open(f"{curr_dir}/saved_data/{type}_ngram_{block_size}_blocks.pkl", "rb")
+    ngram_blocks = pickle.load(afile)
+    afile.close()
+    return word_blocks, ngram_blocks
+
+
+def save_files(data, type="tweets", block_size = 7):
+    word_blocks = get_words(data)
+    ngram_blocks = get_ngrams(data, block_size)
+    afile = open(f"{curr_dir}/saved_data/{type}_word_blocks.pkl", "wb")
+    pickle.dump(word_blocks, afile)
+    afile.close()
+    afile = open(f"{curr_dir}/saved_data/{type}_ngram_{block_size}_blocks.pkl", "wb")
+    pickle.dump(ngram_blocks, afile)
+    afile.close()
