@@ -27,13 +27,16 @@ def main():
     # probabilities = get_probabilities(word_blocks)
     # save_probabilities(probabilities)
     probabilities = load_probabilities()
-    sorted_probabilities = dict((word, sorted(probabilities[word].items(), key=lambda x: x[1], reverse=True)) for word in probabilities)
+    # sorted_probabilities = dict((word, sorted(probabilities[word].items(), key=lambda x: x[1], reverse=True)) for word in probabilities)
     # flatten the dictionary
-    flattened = tuple((word, next_word, probability) for word in sorted_probabilities for next_word, probability in sorted_probabilities[word])
+    # flattened = tuple((word, next_word, probability) for word in sorted_probabilities for next_word, probability in sorted_probabilities[word])
     # sort by probability
-    flattened = sorted(flattened, key=lambda x: x[2], reverse=True)
+    # flattened = sorted(flattened, key=lambda x: x[2], reverse=True)
     pp = pprint.PrettyPrinter(depth=2)
-    pp.pprint(flattened[:10])
+    spec_probs = sorted(probabilities["ai"].items(), key = lambda x: x[1], reverse=True)
+    pp.pprint(spec_probs[:20])
+
+    # pp.pprint(flattened[:10])
 
 if __name__ == "__main__":
     main()

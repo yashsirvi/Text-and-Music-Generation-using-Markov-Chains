@@ -24,7 +24,3 @@ def play_midi():
         pygame.time.Clock().tick(10)
         
 
-
-
-
-
