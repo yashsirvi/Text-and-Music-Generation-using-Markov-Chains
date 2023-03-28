@@ -2,9 +2,9 @@ import pretty_midi
 import pygame
 from pychord import Chord
 
-def create_midi(chords):
+def create_midi(chords, instrument):
     midi_data = pretty_midi.PrettyMIDI()
-    piano_program = pretty_midi.instrument_name_to_program('Acoustic Grand Piano')
+    piano_program = pretty_midi.instrument_name_to_program(instrument)
     piano = pretty_midi.Instrument(program=piano_program)
     length = 1
     for n, chord in enumerate(chords):
@@ -16,12 +16,13 @@ def create_midi(chords):
     midi_data.write('chord_progression.mid')
 
 def play_midi():
+    # play it in a loop
     pygame.mixer.init()
     pygame.mixer.music.load('chord_progression.mid')
-    pygame.mixer.music.play()
+    pygame.mixer.music.play(-1)
     while pygame.mixer.music.get_busy():
         pygame.time.Clock().tick(10)
-
+        
 
 
 
