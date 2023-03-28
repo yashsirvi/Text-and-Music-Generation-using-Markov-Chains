@@ -1,5 +1,3 @@
-import pprint
-
 def get_chord_blocks():
     file = open('./data/chords.txt', 'r')
     Lines = file.readlines()
@@ -15,8 +13,3 @@ def get_chord_blocks():
                 else:
                     chord_blocks[chords[i%len(chords)]]=[chords[(i+1)%len(chords)]]
     return chord_blocks
-
-block=get_chord_blocks()
-
-pp=pprint.PrettyPrinter()
-pp.pprint(block)
