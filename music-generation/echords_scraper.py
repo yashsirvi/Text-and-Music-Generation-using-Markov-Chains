@@ -1,14 +1,15 @@
 from bs4 import BeautifulSoup
 import requests
 import re 
-from spotify_scraper import get_tracks
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 
-def scrape_song(artist,song):
+driver = webdriver.Chrome()
 
+def get_url(artist,song):
     base_url = "https://www.e-chords.com/keyboards"
     
-
     artist = artist.replace(" ","-").lower()
     artist = ''.join(e for e in artist if e.isalnum() or e == "-")
     artist = artist.replace("á","a").replace("é","e").replace("í","i").replace("ó","o").replace("ú","u").replace("ü","u").replace("ñ","n")
@@ -26,23 +27,29 @@ def scrape_song(artist,song):
         song = ''.join(e for e in song if e.isalnum() or e == "-")
 
     # create the url for the song
-    chords_url = f"{base_url}/{artist}/{song}"
+    return f"{base_url}/{artist}/{song}"
 
-    # get the html of the page
-    response = requests.get(chords_url)
-    soup = BeautifulSoup(response.content, "html.parser")
+def scrape_song(artist,song):
 
-    # print(soup)
-    # Find the div that contains the chord
-    # Find all the divs that contain the chords
-    chord_divs = soup.find_all('div', {'class': 'drawchord'})
+    chords_url = get_url(artist,song)
+    print(chords_url)
 
-    if chord_divs is None:
-        print("chord = N/A")
-    else:
-        for chord_div in chord_divs:
-            chord = chord_div.get_text().strip()
-            print(f"chord = {chord}")
+    driver.get(chords_url)
+
+
+    # div_element = driver.find_element(By.ID, 'thechord_0')
+
+    # print(div_element.text)
+
+    # find all the chord div elements
+    chord_elements = driver.find_elements(By.CLASS_NAME, 'drawchord')
+
+    # extract the text from each chord div element and store it in a text file
+    with open("./data/chords.txt", "a") as f:
+        for chord_element in chord_elements:
+            f.write(chord_element.text + " ")
+        f.write("\n")
+            
 
     # # Extract the text content of each div and store it in a list
     # chords = []
