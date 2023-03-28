@@ -1,7 +1,6 @@
 import pretty_midi
 import pygame
-from pychord import *
-# from pychord import Chord
+from pychord import Chord
 
 def create_midi(chords):
     midi_data = pretty_midi.PrettyMIDI()
@@ -14,14 +13,15 @@ def create_midi(chords):
             note = pretty_midi.Note(velocity=100, pitch=note_number, start=n * length, end=(n + 1) * length)
             piano.notes.append(note)
     midi_data.instruments.append(piano)
-    # play this midi file
+    midi_data.write('chord_progression.mid')
+
+def play_midi():
     pygame.mixer.init()
-    pygame.mixer.music.load(midi_data)
+    pygame.mixer.music.load('chord_progression.mid')
     pygame.mixer.music.play()
     while pygame.mixer.music.get_busy():
         pygame.time.Clock().tick(10)
 
-    # midi_data.write('chord.mid')
 
 
 
