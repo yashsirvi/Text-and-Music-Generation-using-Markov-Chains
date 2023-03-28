@@ -2,6 +2,8 @@ import requests
 
 base_url = "https://api.spotify.com/v1"
 
+songs_file = "./data/songs.txt"
+
 def authenticate():
     # Spotify API call
     client_id = "42d7ee2a8314487087feee9255476dab"
@@ -31,15 +33,18 @@ def get_tracks(playlist_id):
 
     artist_song_list = []
 
-    for track in tracks:
-        # get artist and song names
-        artist = track["track"]["artists"][0]["name"]
-        song = track["track"]["name"]
-        print(f"{artist} - {song}")
-        artist_song_list.append((artist, song))
+    with open(songs_file, "a") as f:
+        for track in tracks:
+            # get artist and song names
+            artist = track["track"]["artists"][0]["name"]
+            song = track["track"]["name"]
+            
+            # write it to the file
+            f.write(f"{artist},,{song}\n")
 
-    return artist_song_list
+def main():
+    playlist_id = "0K8DNHMwJaZmERK4FeaAOJ"
+    get_tracks(playlist_id)
 
-
-
-    
+if __name__ == "__main__":
+    main()

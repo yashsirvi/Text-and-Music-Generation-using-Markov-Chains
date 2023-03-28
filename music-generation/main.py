@@ -6,8 +6,10 @@ from ultimateguitar_scraper import *
 #! Currently using the following playlist: https://open.spotify.com/playlist/0K8DNHMwJaZmERK4FeaAOJ
 playlist_id = "0K8DNHMwJaZmERK4FeaAOJ"
 
-tracks = get_tracks(playlist_id)
-print(tracks)
+# do get_tracks if text file doesnt exist already
+get_tracks(playlist_id)
+
+
 
 
     
