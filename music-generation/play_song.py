@@ -14,9 +14,16 @@ def create_midi(chords):
             note = pretty_midi.Note(velocity=100, pitch=note_number, start=n * length, end=(n + 1) * length)
             piano.notes.append(note)
     midi_data.instruments.append(piano)
-    midi_data.write('chord.mid')
+    # play this midi file
+    pygame.mixer.init()
+    pygame.mixer.music.load(midi_data)
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy():
+        pygame.time.Clock().tick(10)
 
-    
+    # midi_data.write('chord.mid')
+
+
 
 
 
