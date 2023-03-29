@@ -1,8 +1,9 @@
 import requests
+import os
 
 base_url = "https://api.spotify.com/v1"
-
-songs_file = "./data/songs.txt"
+curr_dir = os.path.dirname(os.path.realpath(__file__))
+songs_file = f"{curr_dir}/data/songs.txt"
 
 def authenticate():
     # Spotify API call
@@ -29,9 +30,6 @@ def get_tracks(playlist_id):
     playlist_url = f"{base_url}/playlists/{playlist_id}/tracks"
 
     tracks = requests.get(playlist_url, headers=authenticate()).json()["items"]
-
-
-    artist_song_list = []
 
     with open(songs_file, "a") as f:
         for track in tracks:

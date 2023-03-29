@@ -1,7 +1,11 @@
 import random
+import os
+
+curr_dir = os.path.dirname(os.path.realpath(__file__))
+chords_file = f"{curr_dir}/data/chords.txt"
 
 def get_chord_blocks():
-    file = open('./data/chords.txt', 'r')
+    file = open(chords_file, 'r')
     Lines = file.readlines()
     count=0
     chord_blocks={}
