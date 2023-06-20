@@ -7,14 +7,31 @@ This project uses Markov chains to generate text and music based on input data. 
 ## Dependencies
 Install dependencies using `pip install -r requirements.txt`.
 
-## Usage
+## Text Generation
+
+### Usage 
 - Put your input data in form of .txt files in the `input` folder.
 - Edit `main.py` to specify the input files and the number of words to generate.
 - Run `python main.py` to generate text
 
-## Input data format
+### Input data format
+The input data for the text generation should be a text file containing words or sentences separated by a newline. 
 
-The input data for the text generation should be a text file containing words or sentences separated by a newline. The input data for the music generation should be a text file containing chord progressions separated by a newline.
+## Music Generation
+
+### Usage
+- Set up Spotify API using the instructions [here](https://developer.spotify.com/documentation/web-api).
+- Note your Client ID and Client Secret.
+- Create a file `config.py` in the `music-generation` directory and add the following lines to it:
+```py
+CLIENT_ID = 'your-client-id'
+CLIENT_SECRET = 'your-client-secret'
+```
+- To generate the required data, run the script `gen_data.sh` using `bash gen_data.sh`.
+- Finally, run `python main.py` to generate music.
+- `main.py` has certain arguments that can be passed to it, which can be seen by running `python main.py --help`.
+
+
 
 ## Some Results
 ```
@@ -29,4 +46,5 @@ The input data for the text generation should be a text file containing words or
 
 ## Limitations
 
-The Markov chain model used in this project has limitations in generating coherent and grammatically correct natural language texts. The generated text may contain grammatical errors and lack coherence. Similarly, the generated music may not capture the full complexity of the input data.
+- The Markov chain model used in this project has limitations in generating coherent and grammatically correct natural language texts. The generated text may contain grammatical errors and lack coherence. Similarly, the generated music may not capture the full complexity of the input data.
+- The scraping of chords for music progression is currently done synchronously, which is slow. This can be improved by making the code asynchronous.
