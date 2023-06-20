@@ -1,20 +1,28 @@
 import requests
 import os
+import pandas as pd
+import config
+import sys
+
+if len(sys.argv) != 2:
+    print("Usage: python spotify_scraper.py <playlist_id>")
+    print("Playlist ID can be found in the URL of the playlist")
+    print("Example: https://open.spotify.com/playlist/0K8DNHMwJaZmERK4FeaAOJ")
+    sys.exit(1)
 
 base_url = "https://api.spotify.com/v1"
 curr_dir = os.path.dirname(os.path.realpath(__file__))
-songs_file = f"{curr_dir}/data/songs.txt"
+# songs_file = f"{curr_dir}/data/songs.txt"
+songs_file = f"{curr_dir}/data/songs.csv"
 
 def authenticate():
     # Spotify API call
-    client_id = "42d7ee2a8314487087feee9255476dab"
-    client_secret = "5ca3de05d8554ffd9d94821bd567beb5"
     auth = {
         "grant_type": "client_credentials"
     }
     auth_req = requests.post(
         "https://accounts.spotify.com/api/token",
-        auth=(client_id, client_secret),
+        auth=(config.CLIENT_ID, config.CLIENT_SECRET),
         data=auth 
         )
 
@@ -31,17 +39,16 @@ def get_tracks(playlist_id):
 
     tracks = requests.get(playlist_url, headers=authenticate()).json()["items"]
 
-    with open(songs_file, "a") as f:
-        for track in tracks:
-            # get artist and song names
-            artist = track["track"]["artists"][0]["name"]
-            song = track["track"]["name"]
-            
-            # write it to the file
-            f.write(f"{artist},,{song}\n")
+    df = pd.DataFrame(columns=["artist", "song"])
+
+    df["artist"] = [track["track"]["artists"][0]["name"] for track in tracks]
+    df["song"] = [track["track"]["name"] for track in tracks]
+
+
+    df.to_csv(songs_file, index=False)
 
 def main():
-    playlist_id = "0K8DNHMwJaZmERK4FeaAOJ"
+    playlist_id = sys.argv[1]
     get_tracks(playlist_id)
 
 if __name__ == "__main__":
